@@ -1,0 +1,16 @@
+[user]
+        email = your_email@uthscsa.edu 
+        name = Your Name
+[push]
+        default = matching
+
+[alias]
+        co = checkout
+        ci = commit
+        st = status
+        br = checkout -b
+        mr = merge --no-ff
+        lg = log --oneline --graph --color --all --decorate
+[color]
+        ui = auto
+
