@@ -3,7 +3,11 @@
 #' author: "Alex F. Bokov"
 #' date: "09/02/2017"
 #' ---
+#' ## Go to your project folder
+#' #comments 
 #' 
+#' ###something else
+setwd(tsci5050);
 #' ## Load libraries
 #+ warning=FALSE, message=FALSE
 message('Starting in directory ',getwd());
@@ -32,11 +36,28 @@ source('./config.R');
 #' you  write, so you can re-use them in a different project.
 #source('./functions.R');
 #' 
+#' ## R: Anatomy of a Language, practice
+#' 
+cleftpatients<-5;controlegroup<-7;controlegroup - cleftpatients;
+missingteeth<-3
+rsults <- (controlegroup - cleftpatients)^missingteeth
+rsults
+
+mssimgteeth<- 3
+missingteeth<- 3
+rsults*missingteeth
+if((controlegroup%%5)>5) {
+  print("hello");
+  print("world");} else{print("foo")} 
+if((controlegroup%%3)>2) {
+  
+}
 #' ## Load data
 #' 
 #' ### Main data file
 #' The path to your data file should be set in your `config.R` script, above
 #' Name this object `inputdata`
+inputdata<-''
 #' 
 #' ### Data dictionary
 #' A lot of what you do when you prepare the data for analysis will be
