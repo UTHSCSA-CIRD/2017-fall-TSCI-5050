@@ -3,11 +3,6 @@
 #' author: "Alex F. Bokov"
 #' date: "09/02/2017"
 #' ---
-#' ## Go to your project folder
-#' #comments 
-#' 
-#' ###something else
-setwd(tsci5050);
 #' ## Load libraries
 #+ warning=FALSE, message=FALSE
 message('Starting in directory ',getwd());
@@ -26,9 +21,20 @@ sapply(rq_need,require,character.only=T);
 #enableJIT(3);
 #' ## Load local config file
 #' This file stores the configurations specific to your local computer
-#' At the moment mostly paths to commonly used folders
+#' At the moment mostly paths to commonly used folders. Note the attempt at a 
+#' new user-friendly error message telling you what to do if it doesn't work.
 message('Loading local configurations');
-source('./config.R');
+
+if(! 'config.R' %in% list.files()) stop(sprintf(
+"
+Message from your course director...
+
+There needs to be a config.R file in the same directory as this script. If you
+haven't made one yet, or can't find yours, copy example.config.R to config.R
+(copy, not move) and edit the paths to match your own (especially the user name).
+You are currently in the following directory: 
+%s"
+,getwd())) else source('./config.R');
 #' ## Load custom functions
 #' An important part of this class will be not only learning to run
 #' R commands, but learning to wrap them together into functions.
@@ -56,16 +62,25 @@ if((controlegroup%%3)>2) {
 #' 
 #' ### Main data file
 #' The path to your data file should be set in your `config.R` script, above.
-#' Name this object `d01` (use a short name because you will be typing it a lot)
-dat01<-read_csv(classexample01);
-#' What type of data is in each column?
-dic01<-'';
-#' 
+#' Name this object `dat01` (use a short name because you will be typing it a lot)
+#' Here too I added an error message that tells you what you should actually do
+#' to fix the error. Alas, most R code is less verbose in its explanations.
+if(! 'classexample01' %in% ls(.GlobalEnv)) 
+  stop(
+'
+Message from your course director...
+
+Please look at how the classexample01 variable is set in the example.config.R
+file and update your own config.R file to match that.'
+) else dat01<-read_csv(classexample01);
 #' ### Data dictionary
 #' A lot of what you do when you prepare the data for analysis will be
 #' selecting groups of columns and rows. So it's likely that creating 
 #' a data dictionary will save you the effort of manually writing column
 #' names or row filters over and over.
+#' 
+#' #' What type of data is in each column?
+dic01<-'';
 #' 
 #' Questions to consider:
 #' 
