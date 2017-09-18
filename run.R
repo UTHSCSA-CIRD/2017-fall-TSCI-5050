@@ -56,8 +56,10 @@ if((controlegroup%%3)>2) {
 #' 
 #' ### Main data file
 #' The path to your data file should be set in your `config.R` script, above.
-#' Name this object `inputdata`
-inputdata<-''
+#' Name this object `d01` (use a short name because you will be typing it a lot)
+dat01<-read_csv(classexample01);
+#' What type of data is in each column?
+dic01<-'';
 #' 
 #' ### Data dictionary
 #' A lot of what you do when you prepare the data for analysis will be
