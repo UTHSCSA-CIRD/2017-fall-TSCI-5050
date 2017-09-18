@@ -55,7 +55,7 @@ if((controlegroup%%3)>2) {
 #' ## Load data
 #' 
 #' ### Main data file
-#' The path to your data file should be set in your `config.R` script, above
+#' The path to your data file should be set in your `config.R` script, above.
 #' Name this object `inputdata`
 inputdata<-''
 #' 
@@ -66,6 +66,7 @@ inputdata<-''
 #' names or row filters over and over.
 #' 
 #' Questions to consider:
+#' 
 #' * What columns will never be needed for analysis?
 #' * What columns will be among your predictors ("independent" variables
 #'   as they used to be called... i.e. the "x" side of the model)
