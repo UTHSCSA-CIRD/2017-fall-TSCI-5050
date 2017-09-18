@@ -2,7 +2,7 @@
 #'
 # My various directories:
  
-homedir <- '/home/a/';
+homedir <- '/Users/a/';
 desktop <- '/Users/a/Desktop/';
 downloads <- '/Users/a/Downloads/';
 docs <- '/Users/a/Documents/';
