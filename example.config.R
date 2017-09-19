@@ -2,9 +2,9 @@
 #'
 # My various directories:
  
-homedir <- '/home/a/';
-desktop <- '/Users/a/Desktop/';
-downloads <- '/Users/a/Downloads/';
-docs <- '/Users/a/Documents/';
+homedir <- '/home/aGabriel Catano/';
+desktop <- '/Users/Gabriel Catano/Desktop/';
+downloads <- '/Users/Gabriel Catano/Downloads/';
+docs <- '/Users/Gabriel Catano/Documents/';
 temp <- '/tmp/';
-tsci5050 <- '/Users/a/Documents/17_tsci5050/';
+tsci5050 <- '/Users/Gabriel Catano/Documents/17_tsci5050/';
