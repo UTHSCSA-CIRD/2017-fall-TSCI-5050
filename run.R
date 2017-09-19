@@ -4,6 +4,9 @@
 #' date: "09/02/2017"
 #' ---
 #' 
+#' ## Go to your project folder
+setwd(tsci5050);
+#' 
 #' ## Load libraries
 #+ warning=FALSE, message=FALSE
 message('Starting in directory ',getwd());
