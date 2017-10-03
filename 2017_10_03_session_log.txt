@@ -1,0 +1,647 @@
+
+R version 3.4.2 (2017-09-28) -- "Short Summer"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Workspace loaded from ~/Documents/17_tsci5050/.RData]
+
+> getwd)_
+Error: unexpected ')' in "getwd)"
+> getwd()
+[1] "/home/a/Documents/17_tsci5050"
+> setwd(tsci5050)
+Error in setwd(tsci5050) : cannot change working directory
+> tsci5050
+[1] "/Users/a/Documents/2017-fall-TSCI-5050/"
+> setwd(tsci5050)
+> names(dat01);
+Error: object 'dat01' not found
+> message('Starting in directory ',getwd());
+Starting in directory /tmp/2017-fall-TSCI-5050
+> rq_libs <- c(
++   'compiler'                              # just-in-time compilation
++   ,'survival','MASS','Hmisc','zoo','coin' # various analysis methods
++   ,'readr','dplyr','stringr','magrittr'   # data manipulation & piping
++   ,'ggplot2','ggfortify','grid','GGally'  # plotting
++   ,'stargazer','broom','janitor','tableone');                  # table formatting
+> rq_installed <- sapply(rq_libs,require,character.only=T);
+Loading required package: compiler
+Loading required package: survival
+Loading required package: MASS
+Loading required package: Hmisc
+Loading required package: lattice
+Loading required package: Formula
+Loading required package: ggplot2
+
+Attaching package: ‘Hmisc’
+
+The following objects are masked from ‘package:base’:
+
+    format.pval, round.POSIXt, trunc.POSIXt, units
+
+Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+Loading required package: coin
+Loading required package: readr
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:Hmisc’:
+
+    combine, src, summarize
+
+The following object is masked from ‘package:MASS’:
+
+    select
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Loading required package: stringr
+Loading required package: magrittr
+Loading required package: ggfortify
+Loading required package: grid
+Loading required package: GGally
+
+Attaching package: ‘GGally’
+
+The following object is masked from ‘package:dplyr’:
+
+    nasa
+
+Loading required package: stargazer
+
+Please cite as: 
+
+ Hlavac, Marek (2015). stargazer: Well-Formatted Regression and Summary Statistics Tables.
+ R package version 5.2. http://CRAN.R-project.org/package=stargazer 
+
+Loading required package: broom
+Loading required package: janitor
+Loading required package: tableone
+> rq_need <- names(rq_installed[!rq_installed]);
+> if(length(rq_need)>0) install.packages(rq_need,repos='https://cran.rstudio.com/',dependencies = T);
+> sapply(rq_need,require,character.only=T);
+named list()
+> #' Turn JIT to max: pre-compile all closures, `for`, `while`, and `repeat` loops
+> #not needed yet
+> #enableJIT(3);
+> #' ## Load local config file
+> #' This file stores the configurations specific to your local computer
+> #' At the moment mostly paths to commonly used folders. Note the attempt at a 
+> #' new user-friendly error message telling you what to do if it doesn't work.
+> message('Loading local configurations');
+Loading local configurations
+> 
+> if(! 'config.R' %in% list.files()) stop(sprintf(
++ "
++ Message from your course director...
++ 
++ There needs to be a config.R file in the same directory as this script. If you
++ haven't made one yet, or can't find yours, copy example.config.R to config.R
++ (copy, not move) and edit the paths to match your own (especially the user name).
++ You are currently in the following directory: 
++ %s"
++ ,getwd())) else source('./config.R');
+> #' ## Load custom functions
+> #' An important part of this class will be not only learning to run
+> #' R commands, but learning to wrap them together into functions.
+> #' The `functions.R` file will be where you will store the functions 
+> #' you  write, so you can re-use them in a different project.
+> #source('./functions.R');
+> #' 
+> #' ## R: Anatomy of a Language, practice
+> #'
+> if(! 'classexample01' %in% ls(.GlobalEnv)) 
++   stop(
++ '
++ Message from your course director...
++ 
++ Please look at how the classexample01 variable is set in the example.config.R
++ file and update your own config.R file to match that.'
++ ) else dat01<-read_csv(classexample01);
+Parsed with column specification:
+cols(
+  patient_num = col_integer(),
+  start_date = col_date(format = ""),
+  birth_date = col_date(format = ""),
+  sex_cd = col_character(),
+  language_cd = col_character(),
+  race_cd = col_character(),
+  age_at_visit_days = col_double(),
+  v001_unspcfd_asthmtcs = col_character(),
+  v002_Cgh = col_character(),
+  v003_Strtn_LNC_2710_2_num = col_double(),
+  v003_Strtn_LNC_2710_2_unit = col_character(),
+  v004_RBC_Grp_RBC_789_8_num = col_double(),
+  v004_RBC_Grp_RBC_789_8_unit = col_character(),
+  v004_RBC_Grp_RBC_789_8_info = col_character(),
+  v005_Tmprtr_LNC_8310_5_num = col_double(),
+  v005_Tmprtr_LNC_8310_5_unit = col_character(),
+  v006_Hrt_Rt_LNC_8867_4_num = col_double(),
+  v006_Hrt_Rt_LNC_8867_4_unit = col_character(),
+  v007_Albtrl_Gnrcs = col_character()
+)
+> View(dat01)
+> names(dat01)
+ [1] "patient_num"                 "start_date"                 
+ [3] "birth_date"                  "sex_cd"                     
+ [5] "language_cd"                 "race_cd"                    
+ [7] "age_at_visit_days"           "v001_unspcfd_asthmtcs"      
+ [9] "v002_Cgh"                    "v003_Strtn_LNC_2710_2_num"  
+[11] "v003_Strtn_LNC_2710_2_unit"  "v004_RBC_Grp_RBC_789_8_num" 
+[13] "v004_RBC_Grp_RBC_789_8_unit" "v004_RBC_Grp_RBC_789_8_info"
+[15] "v005_Tmprtr_LNC_8310_5_num"  "v005_Tmprtr_LNC_8310_5_unit"
+[17] "v006_Hrt_Rt_LNC_8867_4_num"  "v006_Hrt_Rt_LNC_8867_4_unit"
+[19] "v007_Albtrl_Gnrcs"          
+> 1:10
+ [1]  1  2  3  4  5  6  7  8  9 10
+> is.numeric(1:10)
+[1] TRUE
+> is.numeric(c('1','2','3','4','5'))
+[1] FALSE
+> c('1','2','3','4','5')
+[1] "1" "2" "3" "4" "5"
+> is.numeric(c('1','2','3','4','5'))
+[1] FALSE
+> is.numeric(dat01$patient_num)
+[1] TRUE
+> is.numeric(dat01$v003_Strtn_LNC_2710_2_unit)
+[1] FALSE
+> sapply(dat01,is.numeric)
+                patient_num                  start_date 
+                       TRUE                       FALSE 
+                 birth_date                      sex_cd 
+                      FALSE                       FALSE 
+                language_cd                     race_cd 
+                      FALSE                       FALSE 
+          age_at_visit_days       v001_unspcfd_asthmtcs 
+                       TRUE                       FALSE 
+                   v002_Cgh   v003_Strtn_LNC_2710_2_num 
+                      FALSE                        TRUE 
+ v003_Strtn_LNC_2710_2_unit  v004_RBC_Grp_RBC_789_8_num 
+                      FALSE                        TRUE 
+v004_RBC_Grp_RBC_789_8_unit v004_RBC_Grp_RBC_789_8_info 
+                      FALSE                       FALSE 
+ v005_Tmprtr_LNC_8310_5_num v005_Tmprtr_LNC_8310_5_unit 
+                       TRUE                       FALSE 
+ v006_Hrt_Rt_LNC_8867_4_num v006_Hrt_Rt_LNC_8867_4_unit 
+                       TRUE                       FALSE 
+          v007_Albtrl_Gnrcs 
+                      FALSE 
+> output <- sapply(dat01,is.numeric)
+> output
+                patient_num                  start_date 
+                       TRUE                       FALSE 
+                 birth_date                      sex_cd 
+                      FALSE                       FALSE 
+                language_cd                     race_cd 
+                      FALSE                       FALSE 
+          age_at_visit_days       v001_unspcfd_asthmtcs 
+                       TRUE                       FALSE 
+                   v002_Cgh   v003_Strtn_LNC_2710_2_num 
+                      FALSE                        TRUE 
+ v003_Strtn_LNC_2710_2_unit  v004_RBC_Grp_RBC_789_8_num 
+                      FALSE                        TRUE 
+v004_RBC_Grp_RBC_789_8_unit v004_RBC_Grp_RBC_789_8_info 
+                      FALSE                       FALSE 
+ v005_Tmprtr_LNC_8310_5_num v005_Tmprtr_LNC_8310_5_unit 
+                       TRUE                       FALSE 
+ v006_Hrt_Rt_LNC_8867_4_num v006_Hrt_Rt_LNC_8867_4_unit 
+                       TRUE                       FALSE 
+          v007_Albtrl_Gnrcs 
+                      FALSE 
+> output
+                patient_num 
+                       TRUE 
+                 start_date 
+                      FALSE 
+                 birth_date 
+                      FALSE 
+                     sex_cd 
+                      FALSE 
+                language_cd 
+                      FALSE 
+                    race_cd 
+                      FALSE 
+          age_at_visit_days 
+                       TRUE 
+      v001_unspcfd_asthmtcs 
+                      FALSE 
+                   v002_Cgh 
+                      FALSE 
+  v003_Strtn_LNC_2710_2_num 
+                       TRUE 
+ v003_Strtn_LNC_2710_2_unit 
+                      FALSE 
+ v004_RBC_Grp_RBC_789_8_num 
+                       TRUE 
+v004_RBC_Grp_RBC_789_8_unit 
+                      FALSE 
+v004_RBC_Grp_RBC_789_8_info 
+                      FALSE 
+ v005_Tmprtr_LNC_8310_5_num 
+                       TRUE 
+v005_Tmprtr_LNC_8310_5_unit 
+                      FALSE 
+ v006_Hrt_Rt_LNC_8867_4_num 
+                       TRUE 
+v006_Hrt_Rt_LNC_8867_4_unit 
+                      FALSE 
+          v007_Albtrl_Gnrcs 
+                      FALSE 
+> names(output)
+ [1] "patient_num"                 "start_date"                 
+ [3] "birth_date"                  "sex_cd"                     
+ [5] "language_cd"                 "race_cd"                    
+ [7] "age_at_visit_days"           "v001_unspcfd_asthmtcs"      
+ [9] "v002_Cgh"                    "v003_Strtn_LNC_2710_2_num"  
+[11] "v003_Strtn_LNC_2710_2_unit"  "v004_RBC_Grp_RBC_789_8_num" 
+[13] "v004_RBC_Grp_RBC_789_8_unit" "v004_RBC_Grp_RBC_789_8_info"
+[15] "v005_Tmprtr_LNC_8310_5_num"  "v005_Tmprtr_LNC_8310_5_unit"
+[17] "v006_Hrt_Rt_LNC_8867_4_num"  "v006_Hrt_Rt_LNC_8867_4_unit"
+[19] "v007_Albtrl_Gnrcs"          
+> names(dat01)
+ [1] "patient_num"                 "start_date"                 
+ [3] "birth_date"                  "sex_cd"                     
+ [5] "language_cd"                 "race_cd"                    
+ [7] "age_at_visit_days"           "v001_unspcfd_asthmtcs"      
+ [9] "v002_Cgh"                    "v003_Strtn_LNC_2710_2_num"  
+[11] "v003_Strtn_LNC_2710_2_unit"  "v004_RBC_Grp_RBC_789_8_num" 
+[13] "v004_RBC_Grp_RBC_789_8_unit" "v004_RBC_Grp_RBC_789_8_info"
+[15] "v005_Tmprtr_LNC_8310_5_num"  "v005_Tmprtr_LNC_8310_5_unit"
+[17] "v006_Hrt_Rt_LNC_8867_4_num"  "v006_Hrt_Rt_LNC_8867_4_unit"
+[19] "v007_Albtrl_Gnrcs"          
+> names(output)[c(5,6)]
+[1] "language_cd" "race_cd"    
+> names(output)[output]
+[1] "patient_num"                "age_at_visit_days"         
+[3] "v003_Strtn_LNC_2710_2_num"  "v004_RBC_Grp_RBC_789_8_num"
+[5] "v005_Tmprtr_LNC_8310_5_num" "v006_Hrt_Rt_LNC_8867_4_num"
+> col_numeric <- names(output)[output]
+> col_numeric
+[1] "patient_num"                "age_at_visit_days"         
+[3] "v003_Strtn_LNC_2710_2_num"  "v004_RBC_Grp_RBC_789_8_num"
+[5] "v005_Tmprtr_LNC_8310_5_num" "v006_Hrt_Rt_LNC_8867_4_num"
+> dat01[,col_numeric] %>% plot()
+Error in plot.new() : figure margins too large
+> dat01[,col_numeric] %>% plot()
+> dat01[,col_numeric] %>% plot(pch='.')
+> dat01[,col_numeric] %>% sapply(jitter,simplify=F) %>% plot(pch='.')
+Error in xy.coords(x, y, xlabel, ylabel, log) : 
+  'x' is a list, but does not have components 'x' and 'y'
+In addition: Warning messages:
+1: In doTryCatch(return(expr), name, parentenv, handler) :
+  display list redraw incomplete
+2: In doTryCatch(return(expr), name, parentenv, handler) :
+  invalid graphics state
+3: In doTryCatch(return(expr), name, parentenv, handler) :
+  invalid graphics state
+4: In doTryCatch(return(expr), name, parentenv, handler) :
+  display list redraw incomplete
+5: In doTryCatch(return(expr), name, parentenv, handler) :
+  invalid graphics state
+6: In doTryCatch(return(expr), name, parentenv, handler) :
+  invalid graphics state
+> dat01[,col_numeric] %>% sapply(jitter,simplify=F) %>% plot(pch='.')
+Error in xy.coords(x, y, xlabel, ylabel, log) : 
+  'x' is a list, but does not have components 'x' and 'y'
+> dat01[,col_numeric] %>% sapply(jitter,simplify=F) %>% data.frame %>% plot(pch='.')
+> dat01[,col_numeric] %>% sapply(jitter) %>% data.frame %>% plot(pch='.',col)
+Error in strwidth(labels, "user") : 
+  cannot coerce type 'closure' to vector of type 'character'
+In addition: Warning messages:
+1: In doTryCatch(return(expr), name, parentenv, handler) :
+  display list redraw incomplete
+2: In doTryCatch(return(expr), name, parentenv, handler) :
+  invalid graphics state
+3: In doTryCatch(return(expr), name, parentenv, handler) :
+  invalid graphics state
+4: In doTryCatch(return(expr), name, parentenv, handler) :
+  display list redraw incomplete
+5: In doTryCatch(return(expr), name, parentenv, handler) :
+  invalid graphics state
+6: In doTryCatch(return(expr), name, parentenv, handler) :
+  invalid graphics state
+> dat01[,col_numeric] %>% sapply(jitter,simplify=F) %>% data.frame %>% plot(pch='.')
+> dat01[,col_numeric] %>% sapply(jitter,simplify=F) %>% data.frame() %>% plot(pch='.',col='#000000')
+> dat01[,col_numeric] %>% sapply(jitter,simplify=F) %>% data.frame() %>% plot(pch='.',col='#990000')
+> dat01[,col_numeric] %>% sapply(jitter,simplify=F) %>% data.frame() %>% plot(pch='.',col='#00000040')
+> dat01[,col_numeric] %>% sapply(jitter,simplify=F) %>% data.frame() %>% plot(pch='.',col='#00000020')
+> dat01[,col_numeric] %>% sapply(jitter,simplify=F) %>% data.frame() %>% plot(pch='.',col='#00000020',cex=2)
+> dat01[,col_numeric] %>% sapply(jitter,simplify=F) %>% data.frame() %>% plot(pch='.',col='#00000020',cex=5)
+> dat01[,col_numeric] %>% sapply(jitter,simplify=F) %>% data.frame() %>% plot(pch='.',col='#00000020',cex=4)
+>  dat01[,col_numeric] %>% matrix() %>% heatmap()
+Error in heatmap(.) : 'x' must be a numeric matrix
+>  dat01[,col_numeric] %>% as.matrix() %>% heatmap()
+>  dat01[,col_numeric] %>% cor() %>% heatmap()
+Error in hclustfun(distfun(x)) : 
+  NA/NaN/Inf in foreign function call (arg 11)
+>  dat01[,col_numeric] %>% cor() %>% View()
+>  dat01[,col_numeric] %>% cor(use=) %>% View()
+>  dat01[,col_numeric] %>% cor(use='pair') %>% View()
+>  dat01[,col_numeric] %>% cor(use='pair') %>% View()
+>  dat01[,col_numeric] %>% cor(use='pair') %>% heatmap()
+> dct01 <- sapply(dat01,class);
+> dct01
+                patient_num                  start_date 
+                  "integer"                      "Date" 
+                 birth_date                      sex_cd 
+                     "Date"                 "character" 
+                language_cd                     race_cd 
+                "character"                 "character" 
+          age_at_visit_days       v001_unspcfd_asthmtcs 
+                  "numeric"                 "character" 
+                   v002_Cgh   v003_Strtn_LNC_2710_2_num 
+                "character"                   "numeric" 
+ v003_Strtn_LNC_2710_2_unit  v004_RBC_Grp_RBC_789_8_num 
+                "character"                   "numeric" 
+v004_RBC_Grp_RBC_789_8_unit v004_RBC_Grp_RBC_789_8_info 
+                "character"                 "character" 
+ v005_Tmprtr_LNC_8310_5_num v005_Tmprtr_LNC_8310_5_unit 
+                  "numeric"                 "character" 
+ v006_Hrt_Rt_LNC_8867_4_num v006_Hrt_Rt_LNC_8867_4_unit 
+                  "numeric"                 "character" 
+          v007_Albtrl_Gnrcs 
+                "character" 
+> dct01 <- data.frame(column=names(dct01),class=dct01);
+>  View(dct01)
+> dct01 <- sapply(dat01,class);
+> dct01 <- data.frame(column=names(dct01),class=dct01,stringsAsFactors = F);
+> dct01$num<- dct01$class=="numeric";
+> dct01$char <- dct01$class=="character";
+> dct01$date <- dct01$class=="Date";
+> View(dct01)
+> num
+Error: object 'num' not found
+> with(dct01,ls())
+[1] "char"   "class"  "column" "date"   "num"   
+> with(dct01,num)
+ [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE
+[11] FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE
+> with(dct01,class=='character')
+ [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE
+[11]  TRUE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE
+> class=='character'
+Error in class == "character" : 
+  comparison (1) is possible only for atomic and list types
+> subset(dct01,num) %>% View()
+> subset(dct01,num)$column
+[1] "age_at_visit_days"          "v003_Strtn_LNC_2710_2_num" 
+[3] "v004_RBC_Grp_RBC_789_8_num" "v005_Tmprtr_LNC_8310_5_num"
+[5] "v006_Hrt_Rt_LNC_8867_4_num"
+> dat01[,subset(dct01,num)$column]
+# A tibble: 2,551 x 5
+   age_at_visit_days v003_Strtn_LNC_2710_2_num
+               <dbl>                     <dbl>
+ 1              4146                        NA
+ 2              6270                        NA
+ 3              6274                        NA
+ 4              6282                        NA
+ 5              6863                        81
+ 6              7717                        NA
+ 7              7718                        95
+ 8              7719                        96
+ 9              7722                        96
+10              7870                        95
+# ... with 2,541 more rows, and 3 more variables:
+#   v004_RBC_Grp_RBC_789_8_num <dbl>,
+#   v005_Tmprtr_LNC_8310_5_num <dbl>,
+#   v006_Hrt_Rt_LNC_8867_4_num <dbl>
+> dat01[,subset(dct01,num)$column] %>% View()
+> dat01[,subset(dct01,char)$column] %>% View()
+> sapply(dat01,function(xx) length(unique(xx)))
+                patient_num                  start_date 
+                         70                        1794 
+                 birth_date                      sex_cd 
+                         70                           2 
+                language_cd                     race_cd 
+                          3                           5 
+          age_at_visit_days       v001_unspcfd_asthmtcs 
+                       2407                           7 
+                   v002_Cgh   v003_Strtn_LNC_2710_2_num 
+                          4                          30 
+ v003_Strtn_LNC_2710_2_unit  v004_RBC_Grp_RBC_789_8_num 
+                          2                           5 
+v004_RBC_Grp_RBC_789_8_unit v004_RBC_Grp_RBC_789_8_info 
+                          2                           2 
+ v005_Tmprtr_LNC_8310_5_num v005_Tmprtr_LNC_8310_5_unit 
+                         10                           2 
+ v006_Hrt_Rt_LNC_8867_4_num v006_Hrt_Rt_LNC_8867_4_unit 
+                        121                           2 
+          v007_Albtrl_Gnrcs 
+                          2 
+>  lunique <- function(xx) length(unique(xx))
+> sapply(dat01,lunique)
+                patient_num                  start_date 
+                         70                        1794 
+                 birth_date                      sex_cd 
+                         70                           2 
+                language_cd                     race_cd 
+                          3                           5 
+          age_at_visit_days       v001_unspcfd_asthmtcs 
+                       2407                           7 
+                   v002_Cgh   v003_Strtn_LNC_2710_2_num 
+                          4                          30 
+ v003_Strtn_LNC_2710_2_unit  v004_RBC_Grp_RBC_789_8_num 
+                          2                           5 
+v004_RBC_Grp_RBC_789_8_unit v004_RBC_Grp_RBC_789_8_info 
+                          2                           2 
+ v005_Tmprtr_LNC_8310_5_num v005_Tmprtr_LNC_8310_5_unit 
+                         10                           2 
+ v006_Hrt_Rt_LNC_8867_4_num v006_Hrt_Rt_LNC_8867_4_unit 
+                        121                           2 
+          v007_Albtrl_Gnrcs 
+                          2 
+> dct01$meta <- NA;
+> dct01$meta <- F;
+> grep(names(dat01),'_unit')
+integer(0)
+Warning message:
+In grep(names(dat01), "_unit") :
+  argument 'pattern' has length > 1 and only the first element will be used
+> grep('_unit',names(dat01))
+[1] 11 13 16 18
+> names(dat01),
+Error: unexpected ',' in "names(dat01),"
+> names(dat01)
+ [1] "patient_num"                 "start_date"                 
+ [3] "birth_date"                  "sex_cd"                     
+ [5] "language_cd"                 "race_cd"                    
+ [7] "age_at_visit_days"           "v001_unspcfd_asthmtcs"      
+ [9] "v002_Cgh"                    "v003_Strtn_LNC_2710_2_num"  
+[11] "v003_Strtn_LNC_2710_2_unit"  "v004_RBC_Grp_RBC_789_8_num" 
+[13] "v004_RBC_Grp_RBC_789_8_unit" "v004_RBC_Grp_RBC_789_8_info"
+[15] "v005_Tmprtr_LNC_8310_5_num"  "v005_Tmprtr_LNC_8310_5_unit"
+[17] "v006_Hrt_Rt_LNC_8867_4_num"  "v006_Hrt_Rt_LNC_8867_4_unit"
+[19] "v007_Albtrl_Gnrcs"          
+> grep('_unit',names(dat01))
+[1] 11 13 16 18
+> grep('_unit',names(dat01),val=T)
+[1] "v003_Strtn_LNC_2710_2_unit"  "v004_RBC_Grp_RBC_789_8_unit"
+[3] "v005_Tmprtr_LNC_8310_5_unit" "v006_Hrt_Rt_LNC_8867_4_unit"
+> grepl('_unit',names(dat01))
+ [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[11]  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE
+> dct01[grepl('_unit',dct01),'meta']
+[1] FALSE FALSE FALSE FALSE
+> dct01[grepl('_unit',dct01),'meta'] <- T
+> View(dct01)
+> dct01[grepl('_unit',dct01),'meta']
+[1] TRUE TRUE TRUE TRUE
+> grepl('_unit',dct01$column)
+ [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[11]  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE
+> dct01[grepl('_unit',dct01$column),'meta']
+[1] FALSE  TRUE FALSE FALSE
+> dct01[grepl('_unit',dct01$column),'meta']
+[1] FALSE  TRUE FALSE FALSE
+> data.frame(dct01)[grepl('_unit',dct01$column),'meta']
+[1] FALSE  TRUE FALSE FALSE
+> grepl('_unit',dct01$column)
+ [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[11]  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE
+> dct01[grepl('_unit',dct01$column),]
+                                                 column     class
+v003_Strtn_LNC_2710_2_unit   v003_Strtn_LNC_2710_2_unit character
+v004_RBC_Grp_RBC_789_8_unit v004_RBC_Grp_RBC_789_8_unit character
+v005_Tmprtr_LNC_8310_5_unit v005_Tmprtr_LNC_8310_5_unit character
+v006_Hrt_Rt_LNC_8867_4_unit v006_Hrt_Rt_LNC_8867_4_unit character
+                              num char  date  meta
+v003_Strtn_LNC_2710_2_unit  FALSE TRUE FALSE FALSE
+v004_RBC_Grp_RBC_789_8_unit FALSE TRUE FALSE  TRUE
+v005_Tmprtr_LNC_8310_5_unit FALSE TRUE FALSE FALSE
+v006_Hrt_Rt_LNC_8867_4_unit FALSE TRUE FALSE FALSE
+> dct01$meta<-F
+> dct01[grepl('_unit',dct01$column),'meta']
+[1] FALSE FALSE FALSE FALSE
+> dct01[grepl('_unit',dct01$column),'meta'] <- T
+> dct01$column
+ [1] "patient_num"                 "start_date"                 
+ [3] "birth_date"                  "sex_cd"                     
+ [5] "language_cd"                 "race_cd"                    
+ [7] "age_at_visit_days"           "v001_unspcfd_asthmtcs"      
+ [9] "v002_Cgh"                    "v003_Strtn_LNC_2710_2_num"  
+[11] "v003_Strtn_LNC_2710_2_unit"  "v004_RBC_Grp_RBC_789_8_num" 
+[13] "v004_RBC_Grp_RBC_789_8_unit" "v004_RBC_Grp_RBC_789_8_info"
+[15] "v005_Tmprtr_LNC_8310_5_num"  "v005_Tmprtr_LNC_8310_5_unit"
+[17] "v006_Hrt_Rt_LNC_8867_4_num"  "v006_Hrt_Rt_LNC_8867_4_unit"
+[19] "v007_Albtrl_Gnrcs"          
+> edit(dct01)
+                                                 column     class
+patient_num                                 patient_num   integer
+start_date                                   start_date      Date
+birth_date                                   birth_date      Date
+sex_cd                                           sex_cd character
+language_cd                                 language_cd character
+race_cd                                         race_cd character
+age_at_visit_days                     age_at_visit_days   numeric
+v001_unspcfd_asthmtcs             v001_unspcfd_asthmtcs character
+v002_Cgh                                       v002_Cgh character
+v003_Strtn_LNC_2710_2_num     v003_Strtn_LNC_2710_2_num   numeric
+v003_Strtn_LNC_2710_2_unit   v003_Strtn_LNC_2710_2_unit character
+v004_RBC_Grp_RBC_789_8_num   v004_RBC_Grp_RBC_789_8_num   numeric
+v004_RBC_Grp_RBC_789_8_unit v004_RBC_Grp_RBC_789_8_unit character
+v004_RBC_Grp_RBC_789_8_info v004_RBC_Grp_RBC_789_8_info character
+v005_Tmprtr_LNC_8310_5_num   v005_Tmprtr_LNC_8310_5_num   numeric
+v005_Tmprtr_LNC_8310_5_unit v005_Tmprtr_LNC_8310_5_unit character
+v006_Hrt_Rt_LNC_8867_4_num   v006_Hrt_Rt_LNC_8867_4_num   numeric
+v006_Hrt_Rt_LNC_8867_4_unit v006_Hrt_Rt_LNC_8867_4_unit character
+v007_Albtrl_Gnrcs                     v007_Albtrl_Gnrcs character
+                              num  char  date  meta
+patient_num                 FALSE FALSE FALSE  TRUE
+start_date                  FALSE FALSE  TRUE  TRUE
+birth_date                  FALSE FALSE  TRUE  TRUE
+sex_cd                      FALSE  TRUE FALSE  TRUE
+language_cd                 FALSE  TRUE FALSE FALSE
+race_cd                     FALSE  TRUE FALSE FALSE
+age_at_visit_days            TRUE FALSE FALSE FALSE
+v001_unspcfd_asthmtcs       FALSE  TRUE FALSE FALSE
+v002_Cgh                    FALSE  TRUE FALSE FALSE
+v003_Strtn_LNC_2710_2_num    TRUE FALSE FALSE FALSE
+v003_Strtn_LNC_2710_2_unit  FALSE  TRUE FALSE  TRUE
+v004_RBC_Grp_RBC_789_8_num   TRUE FALSE FALSE FALSE
+v004_RBC_Grp_RBC_789_8_unit FALSE  TRUE FALSE  TRUE
+v004_RBC_Grp_RBC_789_8_info FALSE  TRUE FALSE  TRUE
+v005_Tmprtr_LNC_8310_5_num   TRUE FALSE FALSE FALSE
+v005_Tmprtr_LNC_8310_5_unit FALSE  TRUE FALSE  TRUE
+v006_Hrt_Rt_LNC_8867_4_num   TRUE FALSE FALSE FALSE
+v006_Hrt_Rt_LNC_8867_4_unit FALSE  TRUE FALSE  TRUE
+v007_Albtrl_Gnrcs           FALSE  TRUE FALSE FALSE
+> View(dct01)
+> subset(dct01,meta)$column
+[1] "v003_Strtn_LNC_2710_2_unit"  "v004_RBC_Grp_RBC_789_8_unit"
+[3] "v005_Tmprtr_LNC_8310_5_unit" "v006_Hrt_Rt_LNC_8867_4_unit"
+> dct01$meta
+ [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[11]  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE
+> edit(dct01)
+                                                 column     class
+patient_num                                 patient_num   integer
+start_date                                   start_date      Date
+birth_date                                   birth_date      Date
+sex_cd                                           sex_cd character
+language_cd                                 language_cd character
+race_cd                                         race_cd character
+age_at_visit_days                     age_at_visit_days   numeric
+v001_unspcfd_asthmtcs             v001_unspcfd_asthmtcs character
+v002_Cgh                                       v002_Cgh character
+v003_Strtn_LNC_2710_2_num     v003_Strtn_LNC_2710_2_num   numeric
+v003_Strtn_LNC_2710_2_unit   v003_Strtn_LNC_2710_2_unit character
+v004_RBC_Grp_RBC_789_8_num   v004_RBC_Grp_RBC_789_8_num   numeric
+v004_RBC_Grp_RBC_789_8_unit v004_RBC_Grp_RBC_789_8_unit character
+v004_RBC_Grp_RBC_789_8_info v004_RBC_Grp_RBC_789_8_info character
+v005_Tmprtr_LNC_8310_5_num   v005_Tmprtr_LNC_8310_5_num   numeric
+v005_Tmprtr_LNC_8310_5_unit v005_Tmprtr_LNC_8310_5_unit character
+v006_Hrt_Rt_LNC_8867_4_num   v006_Hrt_Rt_LNC_8867_4_num   numeric
+v006_Hrt_Rt_LNC_8867_4_unit v006_Hrt_Rt_LNC_8867_4_unit character
+v007_Albtrl_Gnrcs                     v007_Albtrl_Gnrcs character
+                              num  char  date  meta
+patient_num                 FALSE FALSE FALSE  TRUE
+start_date                  FALSE FALSE  TRUE  TRUE
+birth_date                  FALSE FALSE  TRUE  TRUE
+sex_cd                      FALSE  TRUE FALSE FALSE
+language_cd                 FALSE  TRUE FALSE FALSE
+race_cd                     FALSE  TRUE FALSE FALSE
+age_at_visit_days            TRUE FALSE FALSE FALSE
+v001_unspcfd_asthmtcs       FALSE  TRUE FALSE FALSE
+v002_Cgh                    FALSE  TRUE FALSE FALSE
+v003_Strtn_LNC_2710_2_num    TRUE FALSE FALSE FALSE
+v003_Strtn_LNC_2710_2_unit  FALSE  TRUE FALSE  TRUE
+v004_RBC_Grp_RBC_789_8_num   TRUE FALSE FALSE FALSE
+v004_RBC_Grp_RBC_789_8_unit FALSE  TRUE FALSE  TRUE
+v004_RBC_Grp_RBC_789_8_info FALSE  TRUE FALSE  TRUE
+v005_Tmprtr_LNC_8310_5_num   TRUE FALSE FALSE FALSE
+v005_Tmprtr_LNC_8310_5_unit FALSE  TRUE FALSE  TRUE
+v006_Hrt_Rt_LNC_8867_4_num   TRUE FALSE FALSE FALSE
+v006_Hrt_Rt_LNC_8867_4_unit FALSE  TRUE FALSE  TRUE
+v007_Albtrl_Gnrcs           FALSE  TRUE FALSE FALSE
+> dct01$meta
+ [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[11]  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE
