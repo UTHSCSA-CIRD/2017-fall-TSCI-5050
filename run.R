@@ -89,12 +89,14 @@ for( ii in names(dat01) )
   dct01.for <-c (dct01,class(dat01[[ii]]));
 #' The `sapply` version
 dct01 <- sapply(dat01,class);
-dct01 <- data.frame(column=names(dct01),class=dct01);
-dct01$column <- as.character(dct01$column);
+dct01 <- data.frame(column=names(dct01),class=dct01,stringsAsFactors = F);
+#dct01$column <- as.character(dct01$column);
 #' A way to find all the numeric column names 
 dct01$num<- dct01$class=="numeric";
 dct01$char <- dct01$class=="character";
 dct01$date <- dct01$class=="Date";
+dct01$meta <- F;
+
 #' 
 #' ## For next time:
 #' 
