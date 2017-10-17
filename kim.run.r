@@ -89,6 +89,28 @@ dic01 <- data.frame(name=names(dic01), class=dic01)
 dat02 <- data.frame(t(dat01[,-1]))
 names(dat02) <- data.frame(dat01)[,1]
 #' 
+#' select column
+dat02[,2]
+#' numeric?
+is.numeric(dat02$TMEM131)
+#' check all columns
+sapply(dat02, is.numeric)
+#' names of columns
+output <- sapply(dat02, is.numeric)
+names(output)
+names(output)[c(5,6)]
+#' plots a scatter plot
+dat02[,2] %>% plot()
+#' pch changes the shape of the points (+ or . )
+dat02[,2] %>% plot(pch='.')
+#' 
+#' "col="  selects colors
+#' #000000
+#' first two indicate red, next two indicate green, last two indicates blue
+#' 
+#' "cex="  Changes size of the points 
+#' 
+#' 
 #' Questions to consider:
 #' 
 #' * What columns will never be needed for analysis?
