@@ -247,3 +247,4 @@ dct01$date <- dct01$class=="Date";
 #' that will not need a lot of editing. And... see how you do!
 #' 
 #' 
+dct01<-data.frame(column=names(dct01),class=dct01)
