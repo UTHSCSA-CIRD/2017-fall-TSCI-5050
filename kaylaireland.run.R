@@ -86,11 +86,11 @@ dct01<-sapply(dat01,class)
 dct01<-data.frame(column=names(dct01),class=dct01)
 #' creates new dataframe with class and column name which is called dct01vi
 #' > dct01[dct01$class=="numeric","column"] this is how you pull or create
-dct01$num<- dct01$class=="numeric";
-dct01$char<- dct01$class== "character";
-dct01$date<- dct01class== "Date"
 # this creates new column with numeric values to create shortcut to use only numeric values
-dct01$column <- as.character(dct01$column);
+dct01$num <-dct01$class=="numeric"
+dct01$char <-dct01$class== "character"
+dct01$date <-dct01$class== "date"; 
+
 #' Questions to consider:
 #' 
 #'
@@ -115,7 +115,7 @@ dct01$column <- as.character(dct01$column);
 #'   subject IDs? Which columns indicate time? Which other columns can
 #'   vary within the same individual?
 #' * Are there any columns that you will need to combine together into 
-#'   new columns?
+#'   new columns?su
 #' * Are there any columns you need to transform in some other way?
 #'  
 #' ## Transform data
