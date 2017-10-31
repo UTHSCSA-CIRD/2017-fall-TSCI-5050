@@ -79,22 +79,25 @@ file and update your own config.R file to match that.'
 #' a data dictionary will save you the effort of manually writing column
 #' names or row filters over and over.
 #' 
-#' #' What type of data is in each column?
+#' # What type of data is in each column?
 #' 
 #' 1. What are the column names?
 names(dat01);
 #' What are the column types? (the `for` version)
-dct.for <- c();
+dct01.for <- c();
 for( ii in names(dat01) ) 
-  dct01.for <-c (dct01,class(dat01[[ii]]));
+  dct01.for <-c (dct01.for,class(dat01[[ii]]));
 #' The `sapply` version
 dct01 <- sapply(dat01,class);
-dct01 <- data.frame(column=names(dct01),class=dct01);
-dct01$column <- as.character(dct01$column);
-#' A way to find all the numeric column names 
+dct01 <- data.frame(column=names(dct01),class=dct01,stringsAsFactors = F);
+#dct01$column <- as.character(dct01$column);
+#' A way to find and save for later the names of all the numeric, character,
+#' and date columns, respectively.
 dct01$num<- dct01$class=="numeric";
 dct01$char <- dct01$class=="character";
 dct01$date <- dct01$class=="Date";
+dct01$meta <- F;
+
 #' 
 #' ## For next time:
 #' 
