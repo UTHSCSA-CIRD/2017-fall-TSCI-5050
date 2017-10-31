@@ -250,3 +250,34 @@ dct01$meta <- F;
 #' that will not need a lot of editing. And... see how you do!
 #' 
 #' 
+#
+#' # Regression!
+#' 
+#' Let's make a heatmap of just the numeric variables..
+#' 
+#' The compact version...
+dat01[   dct01[[1]][dct01[[3]]]    ] %>% as.matrix() %>% cor(use='pair') %>% heatmap(symm = T);
+#' The expanded version but giving the exact same result
+heatmap(
+  cor(
+    as.matrix(
+      dat01[           # this is our data.frame
+        dct01[[ 1 ]][  # this is the data dictionary (column 1)
+          dct01[[ 3 ]] # this is also a column from the data dictionary
+        ]               # this one selects just the numeric column names
+      ]
+    )
+    ,use='pair'  # use='pair' means it will do correlations on just the non-missing pairs of variables
+    )  
+,symm=TRUE); # symm=TRUE tells heatmap that it's plotting something symmetric
+
+#' Here are our numeric predictor variables
+dct01[[1]][dct01[[3]]][-1];
+
+#' Our first linear model! Using oxygen saturation to predict age
+lm01 <- lm(
+  "age_at_visit_days ~ v003_Strtn_LNC_2710_2_num"
+  , dat01);
+#' What if we want to predict O2 saturation (LOINC code 2710-2, you don't need to actually know that though)
+#' as a function of age?
+lm01 <- update(lm01, "v003_Strtn_LNC_2710_2_num ~ age_at_visit_days");
