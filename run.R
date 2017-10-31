@@ -84,9 +84,9 @@ file and update your own config.R file to match that.'
 #' 1. What are the column names?
 names(dat01);
 #' What are the column types? (the `for` version)
-dct.for <- c();
+dct01.for <- c();
 for( ii in names(dat01) ) 
-  dct01.for <-c (dct01,class(dat01[[ii]]));
+  dct01.for <-c (dct01.for,class(dat01[[ii]]));
 #' The `sapply` version
 dct01 <- sapply(dat01,class);
 dct01 <- data.frame(column=names(dct01),class=dct01,stringsAsFactors = F);
