@@ -1,4 +1,24 @@
-#' # Answer key.
+#' ---
+#' title: "TSCI 5050: Introduction to Data Science: Homework 2"
+#' author: "Alex F. Bokov"
+#' date: "10/31/2017"
+#' ---
+#' Please copy this file to `YOURNAME_hw02.R` then commit it as usual
+#' by issuing the following commands in the bash shell (not in R):
+#' 
+#' `git co YOURBRANCH`
+#' 
+#' `git ci YOURNAME_hw02.R -m "Added homework #2"`
+#' 
+#' `git push`
+#' 
+#' Repeat the above whenver you make changes to this file. You may work 
+#' with other people on this homework, just make sure to credit each other
+#' on your individual homework sheets.
+#' 
+#' First we load the `run.R` file using the `source('run.R')`
+#' command but we don't display it in the formatted output to
+#' keep it from cluttering up the document.
 #+ echo=FALSE, message=FALSE,results='hide'
 source('run.R');
 #' 
@@ -22,7 +42,7 @@ source('run.R');
 #'     `BAR` is _not_ a valid second argument to `sapply(...)` because it is not an
 #'     actual function-- it is the result of a function. Exactly like `sqrt(4)` is 
 #'     not a function, but rather the number `2`, though `sqrt` is a function.
-#'     * `BAZ` <- summary()` will give you an error because `summary` requires
+#'     * `BAZ <- summary()` will give you an error because `summary` requires
 #'     something to summarize. `summary()` is therefore also _not_ a valid second 
 #'     argument for `sapply(...)` (just like `FOO()` was not). Even if instead of 
 #'     `summary()` we were using something that doesn't require an argument like `getwd()`
@@ -50,7 +70,7 @@ source('run.R');
 #'     `class(function(xx,...){summary(log(xx))})` and then try `class(BAY)`. What
 #'     do they both say? Except one of them gets dumped to your console and forgotten
 #'     whereas the other is retained as an object and can be reused later. 
-#'         *__Remember that in R anyplace where you can use a value, you can 
+#'         * __Remember that in R anyplace where you can use a value, you can 
 #'         substitute a function that returns that type of value.__ For example 
 #'         if `2.71828182845905 - 2` is valid then `exp(1) - 2` will also be 
 #'         valid, as will `exp(2) - 2` (though the latter will give a different 
@@ -98,7 +118,12 @@ source('run.R');
 #'     * The `sum()` of a vector of 1s and 0s is the same as the count of 
 #'     values that are 1.
 #'     * If you subtract the fraction positive from 1 you get the fraction negative.
+#'     
 #' ### Answer:
+#' 
+#' 
+#' 
+#' 
 
 
 #' ## 2. Pattern Matching
@@ -192,6 +217,9 @@ source('run.R');
 #' If any of the values happen to be `NA` (missing) then it instead returns `NA`. You
 #' can cause it to ignore the `NA`s by including as the final (optional) argument
 #' `na.rm = FALSE`.
+#' 
 #' ## Answer: 
-
+#' 
+#' 
+#' 
 
