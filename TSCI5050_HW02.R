@@ -8,6 +8,8 @@
 #' 
 #' `git co YOURBRANCH`
 #' 
+#' `git add YOURNAME_hw02.R`
+#' 
 #' `git ci YOURNAME_hw02.R -m "Added homework #2"`
 #' 
 #' `git push`
