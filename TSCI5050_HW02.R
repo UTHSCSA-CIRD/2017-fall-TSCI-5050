@@ -27,9 +27,15 @@
 #'
 #' First we load the `run.R` file using the `source('run.R')`
 #' command but we don't display it in the formatted output to
-#' keep it from cluttering up the document.
+#' keep it from cluttering up the document. The other commands
+#' you see if you look at the source version of this document
+#' are to redirect any plots created by `run.R` into a temporary
+#' file that then gets deleted.
 #+ echo=FALSE, message=FALSE,results='hide'
+png('.junk');
 source('run.R');
+dev.off();
+file.remove('.junk');
 #' 
 #' `run.R` already creates a dct01 table, so we just need to add columns
 #' 
