@@ -30,7 +30,7 @@ source('run.R');
 #' 
 #' Hints for that student:
 #' 
-#' * Read the following help pages: `?sapply`, `?sum`, `?is.na`
+#' * Read the following help pages: `?sapply`, `?sum`,'is.na'
 #' * Remember these rules:
 #'     * `FOO <- summary` creates a an object named `FOO` which is a function that
 #'     is identical to the built-in function `summary`
@@ -39,7 +39,7 @@ source('run.R');
 #'     keep reading to understand why.__
 #'     * `BAR <- summary(1:10)` creates an object named `BAR` containing the results
 #'     of `summary(1:10)` which in this case happens to be table of summary statistics.
-#'     `BAR` is _not_ a valid second argument to `sapply(...)` because it is not an
+#'     `BAR` is _not_ a valid second argviewument to `sapply(...)` because it is not an
 #'     actual function-- it is the result of a function. Exactly like `sqrt(4)` is 
 #'     not a function, but rather the number `2`, though `sqrt` is a function.
 #'     * `BAZ <- summary()` will give you an error because `summary` requires
@@ -121,8 +121,12 @@ source('run.R');
 #'     
 #' ### Answer:
 #' 
+dct01$frac<-sapply(dat01,(is.na(dat01))/
 #' 
 #' 
+#' from the earlier class for reference.... 
+#'  dct01 <- sapply(dat01,class)
+#'  dct01 <- data.frame(column=names(dct01),class=dct01,stringsAsFactors = F)
 #' 
 
 
