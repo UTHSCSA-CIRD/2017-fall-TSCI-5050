@@ -6,21 +6,36 @@
 #' Please copy this file to `YOURNAME_hw02.R` then commit it as usual
 #' by issuing the following commands in the bash shell (not in R):
 #' 
+#' `git sync`
+#'
 #' `git co YOURBRANCH`
+#'
+#' `git add YOURNAME_hw02.R`
 #' 
 #' `git ci YOURNAME_hw02.R -m "Added homework #2"`
 #' 
 #' `git push`
 #' 
+#' Please note that the `sync`, `co`, and `ci` git options are custom
+#' aliases created for this class, not built into git. The rest are 
+#' ordinary git commands. To get a list of aliases and all other local
+#' settings for git, you could type `git config -l` if you are curious.
+#' 
 #' Repeat the above whenver you make changes to this file. You may work 
 #' with other people on this homework, just make sure to credit each other
 #' on your individual homework sheets.
-#' 
+#'
 #' First we load the `run.R` file using the `source('run.R')`
 #' command but we don't display it in the formatted output to
-#' keep it from cluttering up the document.
+#' keep it from cluttering up the document. The other commands
+#' you see if you look at the source version of this document
+#' are to redirect any plots created by `run.R` into a temporary
+#' file that then gets deleted.
 #+ echo=FALSE, message=FALSE,results='hide'
+png('.junk');
 source('run.R');
+dev.off();
+file.remove('.junk');
 #' 
 #' `run.R` already creates a dct01 table, so we just need to add columns
 #' 
