@@ -61,7 +61,8 @@ source('run.R');
 #'     returns a summary _of the natural log of its first argument_. Now this is
 #'     a novel combination of functions that is _not_ redundant with any existing R 
 #'     function. Which of the following are valid second arguments for `sapply(...)`?
-#'         * `BAY`
+#'        *BAY is a valid second argumet*
+#'        * `BAY` 
 #'         * `BAY()`
 #'         * `BAY(1:10)`
 #'     * `function(xx,...){summary(log(xx))}` seems to just print out the code you
@@ -121,9 +122,9 @@ source('run.R');
 #'     
 #' ### Answer:
 #' 
-#' dat01['color']<-NA
-#' View(dat01 )
-#' 
+#' dct01['color']<-NA
+#' View(dct01 )
+#' unique (unlist (lapply (dct01, function (x) which (is.na (x)))))
 
 
 #' ## 2. Pattern Matching
@@ -219,7 +220,8 @@ source('run.R');
 #' `na.rm = FALSE`.
 #' 
 #' ## Answer: 
+#' grep("_date", dct01, value = T)
+#' grep("_unit", dct01, value = T)
+#' grep("_info", dct01, value = T)
+#' grep("patient", dct01, value = T)
 #' 
-#' 
-#' 
-
