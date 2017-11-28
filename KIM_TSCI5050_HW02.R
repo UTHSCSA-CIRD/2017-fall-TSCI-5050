@@ -126,6 +126,7 @@ source('run.R');
 #+ asis=TRUE
 head(dat01) %>% stargazer(type='html')
 #' 
+mean(is.na(FOO))
 
 
 #' ## 2. Pattern Matching
