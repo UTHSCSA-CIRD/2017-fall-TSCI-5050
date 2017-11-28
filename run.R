@@ -7,11 +7,11 @@
 #+ warning=FALSE, message=FALSE
 message('Starting in directory ',getwd());
 rq_libs <- c(
-  'compiler'                              # just-in-time compilation
-  ,'survival','MASS','Hmisc','zoo','coin' # various analysis methods
-  ,'readr','dplyr','stringr','magrittr'   # data manipulation & piping
-  ,'ggplot2','ggfortify','grid','GGally'  # plotting
-  ,'stargazer','broom','janitor','tableone');                  # table formatting
+  'compiler'                                           # just-in-time compilation
+  ,'survival','MASS','Hmisc','zoo','coin'              # various analysis methods
+  ,'readr','dplyr','stringr','magrittr'                # data manipulation & piping
+  ,'ggplot2','ggfortify','grid','GGally'               # plotting
+  ,'xtable','stargazer','broom','janitor','tableone'); # table formatting
 rq_installed <- sapply(rq_libs,require,character.only=T);
 rq_need <- names(rq_installed[!rq_installed]);
 if(length(rq_need)>0) install.packages(rq_need,repos='https://cran.rstudio.com/',dependencies = T);
@@ -207,9 +207,32 @@ dat03 <- subset(dat02,patient_num %in% sampled);
 #' * What variables have a lot of missing values?
 #' * What variables almost never change in value?
 #' * Is there anything else that jumps out at you as odd?
+#' Let's make a heatmap of just the numeric variables..
+#' 
+#' Here are our numeric predictor variables
+dct01[[1]][dct01[[3]]][-1];
+#' 
+#' The compact version...
+dat03[   dct01[[1]][dct01[[3]]]    ] %>% as.matrix() %>% cor(use='pair') %>% heatmap(symm = T);
+#' The expanded version but giving the exact same result
+heatmap(
+  cor(
+    as.matrix(
+      dat03[           # this is our data.frame
+        dct01[[ 1 ]][  # this is the data dictionary (column 1)
+          dct01[[ 3 ]] # this is also a column from the data dictionary
+          ]               # this one selects just the numeric column names
+        ]
+    )
+    ,use='pair'  # use='pair' means it will do correlations on just the non-missing pairs of variables
+  )  
+  ,symm=TRUE); # symm=TRUE tells heatmap that it's plotting something symmetric
 #' 
 #' This is a good point at which to create a cohort table that 
 #' summarizes your dataset.
+CreateTableOne(vars=subset(dct01,!meta & num)$column, strata=c('sex_cd'),data = dat03);
+#' 
+#' # Regression!
 #' 
 #' ## Decide on the type of model to fit to your data.
 #' * If it's time to event, then probably some sort of survival 
@@ -226,6 +249,14 @@ dat03 <- subset(dat02,patient_num %in% sampled);
 #' * There are many other cases but the above hopefully cover the
 #'   most common ones you will encounter.
 #'   
+#' Our first linear model! Using oxygen saturation to predict age
+lm01 <- lm(
+  "age_at_visit_days ~ v003_Strtn_LNC_2710_2_num"
+  , dat01);
+#' What if we want to predict O2 saturation (LOINC code 2710-2, you don't need to actually know that though)
+#' as a function of age?
+lm01 <- update(lm01, "v003_Strtn_LNC_2710_2_num ~ age_at_visit_days");
+
 #' ## Having decided on a model, you need to select variables
 #' 
 #' ### Univariate
@@ -279,35 +310,5 @@ dat03 <- subset(dat02,patient_num %in% sampled);
 #' data either as functions or as short sequences of commands 
 #' that will not need a lot of editing. And... see how you do!
 #' 
-#' 
-#
-#' # Regression!
-#' 
-#' Let's make a heatmap of just the numeric variables..
-#' 
-#' The compact version...
-dat01[   dct01[[1]][dct01[[3]]]    ] %>% as.matrix() %>% cor(use='pair') %>% heatmap(symm = T);
-#' The expanded version but giving the exact same result
-heatmap(
-  cor(
-    as.matrix(
-      dat01[           # this is our data.frame
-        dct01[[ 1 ]][  # this is the data dictionary (column 1)
-          dct01[[ 3 ]] # this is also a column from the data dictionary
-        ]               # this one selects just the numeric column names
-      ]
-    )
-    ,use='pair'  # use='pair' means it will do correlations on just the non-missing pairs of variables
-    )  
-,symm=TRUE); # symm=TRUE tells heatmap that it's plotting something symmetric
 
-#' Here are our numeric predictor variables
-dct01[[1]][dct01[[3]]][-1];
 
-#' Our first linear model! Using oxygen saturation to predict age
-lm01 <- lm(
-  "age_at_visit_days ~ v003_Strtn_LNC_2710_2_num"
-  , dat01);
-#' What if we want to predict O2 saturation (LOINC code 2710-2, you don't need to actually know that though)
-#' as a function of age?
-lm01 <- update(lm01, "v003_Strtn_LNC_2710_2_num ~ age_at_visit_days");
