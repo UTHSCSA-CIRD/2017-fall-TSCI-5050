@@ -96,8 +96,37 @@ dct01 <- data.frame(column=names(dct01),class=dct01,stringsAsFactors = F);
 dct01$num<- dct01$class=="numeric";
 dct01$char <- dct01$class=="character";
 dct01$date <- dct01$class=="Date";
+#' Here we create a meta column which will be TRUE for variables that are not
+#' supposed to be directly used in analysis. "Housekeeping" variables.
+#' First we initialize all of it to FALSE
 dct01$meta <- F;
-
+#' `grepl` returns TRUE when the value of the vector in the second argument,
+#' in this case the column named `'column'`, is matched by the regular expression
+#' in the second argument, in this case `'_unit$|_info$'` (ends with _unit or 
+#' ends with _info). Otherwise it returns FALSE. This results in a vector of 
+#' TRUE/FALSE values. When we have a vector of TRUE/FALSE values inside a pair 
+#' of single brackets, `[ ]`, on the left side of the comma 
+#' `dct01[ c(T,F,F,T,T,F,T) , ... ]` it means that only the rows corresponding 
+#' to TRUE will be returned. To the right of the comma we specify the column/s. 
+#' So by itself `dct01[grepl('_unit$|_info$',dct01$column),'meta']` would return 
+#' the values of the `'meta'` column for the rows whose name listed in `'column'`
+#' ends with _unit or _info. But notice that we have the assignment arrow `<-` 
+#' pointing _at_ this expression. Some R expressions, such as `names(...)` and 
+#' `levels(...)` can be on the receiving end of an assignment. They take whatever
+#' value is on the right of them and modify one of their arguments using that
+#' value. Subsetting expressions like `$`, `[ ]`, and `[[ ]]` can accept 
+#' assignment of new values. This is what we are doing here-- assigning a TRUE
+#' value to the `'meta'` column for every row whose names in `'column'` ends with
+#' _unit or _info.
+dct01[grepl('_unit$|_info$',dct01$column),'meta'] <- T;
+#' We also assign a TRUE to the `'meta'` column for the first three values 
+#' because in this example we happen to know that they are study-IDs or dates.
+#' As mentioned before, instead of having a TRUE/FALSE vector to the left of the
+#' comma we can have a numeric vector specifying exactly which rows to include
+#' and that's what we are doing here.
+dct01[1:3,'meta'] <- T;
+#' Now our data dictionary, `dct01` has a column, `'meta'`, which tells us which
+#' values not to plot or analyze directly, even if they happen to be numeric.
 #' 
 #' ## For next time:
 #' 
