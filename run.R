@@ -257,7 +257,7 @@ lm01 <- lm(
 #' as a function of age?
 lm01 <- update(lm01, "v003_Strtn_LNC_2710_2_num ~ age_at_visit_days");
 
-#' ## Having decided on a model, you need to select variables
+summary(lm01);
 #' 
 #' ### Univariate
 #' Hopefully you already have a-priori variables chosen based on
