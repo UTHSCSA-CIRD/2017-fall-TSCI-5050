@@ -223,6 +223,10 @@ mean(is.na(FOO))
 #' 
 #' ## Answer: 
 #' 
-#' 
+#' grep() = shows which values match (their positions) 
+#'        or with the "val=T" option gives actual matching values
+#' grepl() = like the above, but returns vector of True/False only
+#'  "FOO|BAR|BAZ" - matching multiple patterns
+#'  
 #' 
 
