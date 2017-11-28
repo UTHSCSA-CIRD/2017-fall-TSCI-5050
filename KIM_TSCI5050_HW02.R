@@ -121,8 +121,10 @@ source('run.R');
 #'     
 #' ### Answer:
 #' 
+#' `Answer`
 #' 
-#' 
+#+ asis=TRUE
+head(dat01) %>% stargazer(type='html')
 #' 
 
 
