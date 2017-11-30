@@ -120,8 +120,13 @@ source('run.R');
 #'     * If you subtract the fraction positive from 1 you get the fraction negative.
 #'     
 #' ### Answer:
-#' 
-dct01$frac<-sapply(dat01,(is.na(dat01))/
+#' dct01$frac<-sapply(dat01,(mean(is.na(Foo)))) = WRONG
+#' dcto1$frac<- sapply(dat01,mean(is.na(FOO))) = WRONG
+FOO<-summary(dat01)
+dct01$frac<-mean(is.na(FOO))
+
+
+                          
 #' 
 #' 
 #' from the earlier class for reference.... 
