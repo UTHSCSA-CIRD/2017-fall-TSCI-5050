@@ -122,19 +122,21 @@ source('run.R');
 #' ### Answer:
 #' dct01$frac<-sapply(dat01,(mean(is.na(Foo)))) = WRONG
 #' dcto1$frac<- sapply(dat01,mean(is.na(FOO))) = WRONG
-FOO<-summary(dat01)
-dct01$frac<-mean(is.na(FOO))
+#' FOO<-summary(dat02)
+#' dct02<-dct01
+#' dct02$frac<-mean(is.na(FOO))
+#' all of the fractions are the same = something is wrong. need to use sapply but what is the function???  it applied to the summary but not each individual column.
+#' sum(is.na(FOO))
+#' dct02$missing<-sum(is.na(FOO))
+#' again all of the numbers are the same = something is wrong.  what is summary(dat01) actually showing???
+#'dct02$frac<-sapply (dat01,FOO){mean(is.na())} = wrong
+#'dct02<-sapply(dat01,WHAT IS THE FUNCTION??? {mean(is.na())}
+#' finally think this is correct
 
-
-                          
-#' 
-#' 
-#' from the earlier class for reference.... 
-#'  dct01 <- sapply(dat01,class)
-#'  dct01 <- data.frame(column=names(dct01),class=dct01,stringsAsFactors = F)
-#' 
-
-
+sapply(dat01,function(x){sum(is.na(x))})
+dct01$frac <- sapply(dat01,function(x){sum(is.na(x))})
+dct01$missing <- sapply(dat01,function(x){mean(is.na(x))})
+                        
 #' ## 2. Pattern Matching
 #' 
 #' > Create a column in dct01 with a FALSE for every value of the 'column' column 
@@ -228,7 +230,17 @@ dct01$frac<-mean(is.na(FOO))
 #' `na.rm = FALSE`.
 #' 
 #' ## Answer: 
-#' 
-#' 
-#' 
+#' from prior run.R class: grep('^v',dct01[ !dct01$meta & dct01$char , 'column' ],val=T)] %>% sapply(function(xx) !is.na(xx),simplify=F)
+#' $- matches end of string
+
+FOO <- !grepl('_date$|_unit$|_info$|_patient$', dct01$colum)
+dct01$non_analytic <- FOO
+#' grepl ('_date$|_unit$|_info$|_patient$'%>%"_class$',dct01$class) = WRONG
+BAY <- grepl ("TRUE", dct01$char)
+#' grepl ('_date$|_unit$|_info$|_patient$'%>%"_class$',dct01) = WRONG
+#' if (FOO)%>%(BAY), else (FALSE) = WRONG
+BAZ <- if (FOO) {dct01$char==TRUE} else {FALSE}
+dct01$HW_2 <- BAZ
+
+
 
