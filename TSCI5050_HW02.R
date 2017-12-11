@@ -136,10 +136,6 @@ file.remove('.junk');
 #'     
 #' ### Answer:
 #' 
-#' 
-#' 
-#' 
-#' 
 
 
 #' ## 2. Pattern Matching
@@ -236,6 +232,3 @@ file.remove('.junk');
 #' 
 #' ## Answer: 
 #' 
-#' 
-#' 
-

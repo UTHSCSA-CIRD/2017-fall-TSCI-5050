@@ -20,7 +20,10 @@
 #' command but we don't display it in the formatted output to
 #' keep it from cluttering up the document.
 #+ echo=FALSE, message=FALSE,results='hide'
+png('.junk');
 source('run.R');
+dev.off();
+file.remove('.junk');
 #' 
 #' `run.R` already creates a dct01 table, so we just need to add columns
 #' 
@@ -121,12 +124,15 @@ source('run.R');
 #'     
 #' ### Answer:
 #' 
-#' `Answer`
-#' 
-#+ asis=TRUE
-head(dat01) %>% stargazer(type='html')
-#' 
-mean(is.na(FOO))
+#' > Missing values
+missing_values <- sapply(dat01, function(xx) sum(length(which(is.na(xx)))))
+dct01$missing <- missing_values 
+tail(dct01)
+#' > Unique values
+unique_values <- sapply(dat01, function(xx) sum(length(unique(xx))))
+dct01$unique <- unique_values
+head(dct01)
+
 
 
 #' ## 2. Pattern Matching
@@ -229,4 +235,11 @@ mean(is.na(FOO))
 #'  "FOO|BAR|BAZ" - matching multiple patterns
 #'  
 #' 
+dct01$analytic <- T
+dct01[grepl('_unit$|_info$|_date$|patient',dct01$column),'analytic'] <- F
+head(dct01)
 
+dct01$analytic2 <- F
+dct01[grepl('character', dct01$class),'analytic2'] <- T
+dct01[grepl('FALSE', dct01$analytic), 'analytic2'] <- F
+tail(dct01)
